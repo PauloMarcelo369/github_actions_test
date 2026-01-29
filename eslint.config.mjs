@@ -11,13 +11,16 @@ export default [
   js.configs.recommended,
 
   {
-    files: ["**/*.ts"],
+    files: ["**/*.ts", "**/*.spec.ts", "**/*.test.ts"],
     languageOptions: {
       parser: tsParser,
       ecmaVersion: "latest",
       sourceType: "module",
       globals: {
         ...globals.node,
+        describe: "readonly",
+        it: "readonly",
+        expect: "readonly",
       },
     },
     plugins: {

@@ -1,8 +1,5 @@
 import express from "express";
 import cors from "cors";
-import fs from "node:fs";
-
-let bosta;
 
 const app = express();
 app.use(express.json());
