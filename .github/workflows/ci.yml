@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches: ["app_config"]
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/node-setup
+      - name: análise de lint
+        run: npm run lint
+
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/node-setup
+      - name: roda os testes
+        run: npm run test

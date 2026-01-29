@@ -1,0 +1,13 @@
+name: "Setup Node"
+description: "Configura o node e baixa as dependencias"
+
+runs:
+  using: "composite"
+  steps:
+    - name: setup do nodejs
+      uses: actions/setup-node@v4
+      with:
+        node-version: "20"
+        cache: "npm"
+    - name: instalar dependencias
+      run: npm ci
