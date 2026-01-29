@@ -1,0 +1,4 @@
+node_modules
+db
+*.sqlite
+docker-compose.prod.yml
