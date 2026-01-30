@@ -1,8 +1,8 @@
 name: CI
 
 on:
-  push:
-    branches: ["app_config"]
+  pull_request:
+    branches: ["develop"]
 
 defaults:
   run:
