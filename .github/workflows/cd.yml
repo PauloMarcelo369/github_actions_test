@@ -2,7 +2,7 @@ name: CD
 
 on:
   push:
-    branches: ["main"]
+    branches: ["app_config"]
 
 defaults:
   run:
@@ -45,3 +45,32 @@ jobs:
 
       - name: Fazendo update da cache
         run: rm -rf /tmp/.buildx-cache && mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fazendo deploy pra vm via ssh
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{secrets.VM_HOST}}
+          username: ${{secrets.VM_USER}}
+          key: ${{ secrets.VM_SSH_KEY}}
+          port: ${{secrets.VM_PORT}}
+          script: |
+
+            set -e
+            export APP_SHA=${{ github.sha }}
+            export DOCKER_USER=${{ secrets.DOCKER_USERNAME }}
+            docker login -u $DOCKER_USER -p ${{ secrets.DOCKER_PASSWORD }}
+            docker pull $DOCKER_USER/teste:${APP_SHA}
+
+            cd ~/staging
+
+            docker-compose run --rm migrate
+            docker stop workflow-api || true
+            docker rm workflow-api || true
+            docker-compose up -d api
