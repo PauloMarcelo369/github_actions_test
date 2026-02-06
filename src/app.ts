@@ -9,4 +9,8 @@ app.get("/", (req, res) => {
   res.json("aplicativo funcionando de boa! :) :) :)");
 });
 
+app.get("/bom-dia", (req, res) => {
+  res.json("sim, isso é um bom dia!");
+});
+
 export default app;
